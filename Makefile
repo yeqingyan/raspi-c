@@ -47,8 +47,10 @@ $(BUILD)output.elf : $(OBJECTS)
 	$(ARMGNU)-ld -Ttext 8000 $(OBJECTS) -Map $(MAP) -o $(BUILD)output.elf
 
 # Rule to make the object files.
+# Note by Yeqing:
+# Gcc using -O2 or -O3 sometimes got problems, if code runs not as expected, try turn off -O first 
 $(BUILD)%.o: $(SOURCE)%.c $(BUILD)
-	$(ARMGNU)-gcc -O3 -g -c $< -o $@
+	$(ARMGNU)-gcc -Wall -g -O -c $< -o $@
 
 $(BUILD):
 	mkdir $@
