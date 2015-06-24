@@ -9,18 +9,19 @@ void _start(){
 }
 
 int main(){
-        int i;
+        /* Morse code, 0 for turn off LED, 1 for turn on LED */
+        int pattern = 0b11111111101010100010001000101010;
+        int seq = 0;
+        int code;
+
         SetGpioFunction(16, 1);         /* Enable 16th GPIO pin */
 
         while(1){
-                SetGpio(16, 0);         /* Turn on the light */
+                code = pattern & (1 << seq);
+                SetGpio(16, code);         /* Turn on/off the light */
+                seq++;
+                seq &= 0b11111;         /* Reset q to 0 if it reaches 32 */
+                Wait(250000);
                 
-                i = 0x3f0000;
-                while(i !=0) i--;
-                
-                SetGpio(16, 1);         /* Turn off the light */
-                
-                i = 0x3f0000;
-                while(i !=0) i--;
         }
 }
