@@ -1,3 +1,6 @@
+#include <kernel.h>
+
+void _start() __attribute__ ((section (".init")));
 int main();
 
 void _start(){
@@ -6,22 +9,16 @@ void _start(){
 }
 
 int main(){
-        int *gpio_addr = (int *)0x20200000;
-        int cmd = 1 << 18;
-        *(gpio_addr + 1) = cmd;         /* Enable 16th GPIO pin */
-
-        cmd = 1 << 16;
-        
         int i;
+        SetGpioFunction(16, 1);         /* Enable 16th GPIO pin */
 
-        
         while(1){
-                *(gpio_addr + 10) = cmd;        /* Turn on the light */
+                SetGpio(16, 0);         /* Turn on the light */
                 
                 i = 0x3f0000;
                 while(i !=0) i--;
                 
-                *(gpio_addr + 7) = cmd;         /* Turn off the light */
+                SetGpio(16, 1);         /* Turn off the light */
                 
                 i = 0x3f0000;
                 while(i !=0) i--;
